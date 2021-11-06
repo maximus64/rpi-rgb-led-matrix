@@ -1026,6 +1026,18 @@ private:
   citizen* parents_;
 };
 
+
+class BurnInTest : public DemoRunner {
+public:
+  BurnInTest(Canvas *m) : DemoRunner(m) {}
+  void Run() override {
+    canvas()->Fill(255, 255, 255);
+
+    while (!interrupt_received)
+      sleep(1);
+  }
+};
+
 static int usage(const char *progname) {
   fprintf(stderr, "usage: %s <options> -D <demo-nr> [optional parameter]\n",
           progname);
@@ -1049,7 +1061,8 @@ static int usage(const char *progname) {
           "\t8  - Langton's ant (-m <time-step-ms>)\n"
           "\t9  - Volume bars (-m <time-step-ms>)\n"
           "\t10 - Evolution of color (-m <time-step-ms>)\n"
-          "\t11 - Brightness pulse generator\n");
+          "\t11 - Brightness pulse generator\n"
+          "\t12 - Burn in test: all white\n");
   fprintf(stderr, "Example:\n\t%s -D 1 runtext.ppm\n"
           "Scrolls the runtext until Ctrl-C is pressed\n", progname);
   return 1;
@@ -1165,6 +1178,10 @@ int main(int argc, char *argv[]) {
 
   case 11:
     demo_runner = new BrightnessPulseGenerator(matrix);
+    break;
+
+  case 12:
+    demo_runner = new BurnInTest(matrix);
     break;
   }
 
